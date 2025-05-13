@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Warehouse extends Model
 {
@@ -19,7 +21,7 @@ class Warehouse extends Model
     {
         return $this->belongsToMany(Product::class, 'warehouse_products')
             ->withPivot('stock')
-            ->withTimestamps();     
+            ->withTimestamps();
     }
 
     public function getPhotoAttribute($value)
