@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Warehouse extends Model
+{
+    use SoftDeletes;
+
+    protected $fillable = [
+        'name',
+        'address',
+        'phone',
+        'photo',
+    ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'warehouse_products')
+            ->withPivot('stock')
+            ->withTimestamps();     
+    }
+
+    public function getPhotoAttribute($value)
+    {
+        if (!$value) {
+            return null;
+        }
+
+        return url((Storage::url($value)));
+    }
+}
