@@ -16,7 +16,7 @@ class MerchantRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255', 'unique:merchants,name'],
             'address' => ['required', 'string'],
-            'photo' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // 2MB max
+            'photo' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'], // 2MB max
             'phone' => ['required', 'string', 'max:20', 'unique:merchants,phone'],
             'keeper_id' => ['required', 'exists:users,id'],
         ];

@@ -62,7 +62,7 @@ class MerchantService
         return $this->merchantRepository->delete($id);
     }
 
-    public function getByKeeperId(int $keeperId, array $fields)
+    public function getByKeeperId(int $keeperId)
     {
         $fields = ['*'];
         return $this->merchantRepository->getByKeeperId($keeperId, $fields);

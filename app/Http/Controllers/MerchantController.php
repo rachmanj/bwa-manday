@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\MerchantResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Requests\MerchantRequest;
+use Illuminate\Support\Facades\Auth;
 
 class MerchantController extends Controller
 {
@@ -39,5 +40,37 @@ class MerchantController extends Controller
     {
         $merchant = $this->merchantService->create($request->validated());
         return response()->json(new MerchantResource($merchant), 201);
+    }
+
+    public function update(MerchantRequest $request, int $id)
+    {
+        try {
+            $merchant = $this->merchantService->update($id, $request->validated());
+            return response()->json(new MerchantResource($merchant));
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Merchant not found'], 404);
+        }
+    }
+
+    public function destroy(int $id)
+    {
+        try {
+            $this->merchantService->delete($id);
+            return response()->json(['message' => 'Merchant deleted successfully']);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Merchant not found'], 404);
+        }
+    }
+
+    public function getMyMerchantProfile()
+    {
+        $userId = Auth::id();
+
+        try {
+            $merchant = $this->merchantService->getByKeeperId($userId);
+            return response()->json(new MerchantResource($merchant));
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Merchant not found'], 404);
+        }
     }
 }
